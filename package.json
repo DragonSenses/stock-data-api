@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Stock data API built with Node.js and Express.js",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
