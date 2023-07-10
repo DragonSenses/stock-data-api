@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/DragonSenses/stock-data-api/issues"
   },
-  "homepage": "https://github.com/DragonSenses/stock-data-api#readme"
+  "homepage": "https://github.com/DragonSenses/stock-data-api#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
