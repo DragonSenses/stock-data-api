@@ -145,3 +145,21 @@ To be analyzed statically means that the `import`/`export` statements can be ana
 - Better performance
 - Improved Code organization 
 
+### Express - Bind and listen to the connections
+
+Now let's create a port number and **bind and listen to the connections on the specified host and port**.
+
+```js
+import express from 'express';
+
+const app = express();
+const port = 5454;
+
+app.listen(port, () => {
+  console.log(`Server has started on port: ${port}`);
+})
+```
+
+If port number is omitted, then OS will assign an arbitrary unused port number (useful for automated tasks such as tests). `app.listen()` returns an `http.Server` object.
+
+This will now *listen* to incoming requests, when the server is running.
