@@ -197,3 +197,39 @@ Alternative:
 app.use(require('cors')());
 ```
 
+# Routes
+
+Routes are analagous to API endpoints we can define.
+
+API routes are a way of defining endpoints that can be accessed by clients. They are used to define the structure of an API and how it can be accessed. An API route is a combination of an HTTP method and a resource path. For example, GET /users would be an API route that returns a list of users. You can define specific HTTP methods for your route or use the ANY method to match all methods that you haven't defined for a resource¹.
+
+Let's define the routes.
+
+```js
+// ROUTES
+app.get('/', (req, res) => {
+  
+})
+```
+
+The verb we use is `GET` to make a get route. In express, we call `get()` passing in two arguments the path and the function or logic to execute when request hits that particular route.
+
+To create a `POST` route:
+
+```js
+app.post('/', (req, res) => {
+  
+})
+```
+
+Now inside the function we have access to the request and the response via `req` and `res` respectively.
+
+## The home route
+
+Let's define what to do for the GET home route. Send a successful response with a json message of thanking the user for trying the API.
+
+```js
+app.get('/', (req, res) => {
+  res.status(200).send({ msg: 'Thanks for trying our API' });
+})
+```
