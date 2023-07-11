@@ -233,3 +233,32 @@ app.get('/', (req, res) => {
   res.status(200).send({ msg: 'Thanks for trying our API' });
 })
 ```
+
+## Get route for stock API
+
+```js
+app.get('/api/stock', (req, res) => {
+  const { stock } = req.query;
+})
+```
+
+Let's change the route to our api. Then destructure out the `stock` value from the `req.query`.
+
+There is 3 different ways you can retrieve information from an incoming network request.
+
+1. From the `query`
+2. The `parameter`
+3. From the `body`
+  - `body` only exists with `POST` request
+
+
+## Post route
+
+```js
+app.post('/test', (req, res) => {
+  const body = req.body;
+  const { message } = body;
+  console.log('Message:' + message );
+  res.sendStatus(200);
+})
+```
