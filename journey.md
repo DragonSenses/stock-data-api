@@ -163,3 +163,37 @@ app.listen(port, () => {
 If port number is omitted, then OS will assign an arbitrary unused port number (useful for automated tasks such as tests). `app.listen()` returns an `http.Server` object.
 
 This will now *listen* to incoming requests, when the server is running.
+
+## Setup the Middleware
+
+Still in `server.js`, add the line:
+
+```js
+// MIDDLEWARE
+app.use(express.json());
+```
+
+Allows our project to retrieve JSON that may come in the form of a POST request.
+
+### Install CORS package
+
+[npm cors](https://www.npmjs.com/package/cors).
+
+```sh
+npm i cors
+```
+
+```js
+import cors from 'cors';
+
+app.use(cors());
+```
+
+Enable Cross-Origin-Requests.
+
+Alternative:
+
+```js
+app.use(require('cors')());
+```
+
