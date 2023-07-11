@@ -1,8 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import cheerio from 'cheerio';
 
 const app = express();
 const port = 5454;
+
+// VARIABLES
+const baseURL = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`;
 
 // MIDDLEWARE
 app.use(express.json());
@@ -17,6 +21,12 @@ app.get('/', (req, res) => {
 
 app.get('/api/stock', (req, res) => {
   const { stock } = req.query;
+
+  if(!stock){
+    return res.sendStatus(403);
+  }
+
+  const stockDataUrl = baseURL(stock);
 })
 
 app.post('/test', (req, res) => {
