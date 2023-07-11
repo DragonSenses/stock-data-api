@@ -262,3 +262,13 @@ app.post('/test', (req, res) => {
   res.sendStatus(200);
 })
 ```
+
+# Install Cheerio
+
+To extract and retrieve stock information we need cheerio.
+
+[cheerio](https://www.npmjs.com/package/cheerio), a web-scraper that can be used with JavaScript and is compatible with Node.js.
+
+```sh
+npm i cheerio
+```
