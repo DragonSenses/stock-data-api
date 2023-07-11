@@ -11,16 +11,19 @@ app.use(cors());
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.status(200).send({ msg: 'Thanks for trying our API' });
+  res.status(200).send({ message: 'Thanks for trying our API' });
 })
 
 
 app.get('/api/stock', (req, res) => {
-
+  const { stock } = req.query;
 })
 
 app.post('/test', (req, res) => {
-
+  const body = req.body;
+  const { message } = body;
+  console.log('Message:' + message );
+  res.sendStatus(200);
 })
 
 app.listen(port, () => {
