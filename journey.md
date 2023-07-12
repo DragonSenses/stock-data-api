@@ -263,7 +263,7 @@ app.post('/test', (req, res) => {
 })
 ```
 
-# Install Cheerio
+### Install Cheerio
 
 To extract and retrieve stock information we need cheerio.
 
@@ -272,3 +272,10 @@ To extract and retrieve stock information we need cheerio.
 ```sh
 npm i cheerio
 ```
+
+## Working on the stock GET route
+
+We need to be able to retrieve information. Going to use [Yahoo Finance](https://finance.yahoo.com), while checking stock history with a link like this: `https://finance.yahoo.com/quote/ATVI/history?p=ATVI`.
+
+
+
