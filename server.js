@@ -26,7 +26,15 @@ app.get('/api/stock', (req, res) => {
     return res.sendStatus(403);
   }
 
-  const stockDataUrl = baseURL(stock);
+  
+  try {
+    const stockDataUrl = baseURL(stock);
+    const res = await fetch(stockDataUrl);
+    const $ = cheerio.load(stock);
+  } catch(err){
+    console.log(err);
+  }
+  
 })
 
 app.post('/test', (req, res) => {
