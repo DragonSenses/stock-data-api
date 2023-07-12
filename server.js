@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/stock', async (req, res) => {
   const { stock } = req.query;
+  console.log('Stock Ticker: ' + stock );
 
   if(!stock){
     return res.sendStatus(403);
@@ -29,8 +30,14 @@ app.get('/api/stock', async (req, res) => {
   
   try {
     const stockDataUrl = baseURL(stock);
+    console.log('stockDataUrl: ' + stockDataUrl);
+
     const res = await fetch(stockDataUrl);
+    console.log('response: ' + res);
+
     const $ = cheerio.load(res);
+    console.log('cheerio load: ' + $);
+
     res.sendStatus(200);
   } catch(err){
     console.log('Error Occurred', err);
