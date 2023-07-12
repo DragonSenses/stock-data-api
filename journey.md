@@ -276,8 +276,13 @@ npm i cheerio
 To use:
 
 ```js
-const cheerio = require('cheerio');
-const $ = cheerio.load('<h2 class="title">Hello world</h2>');
+// ES6 or TypeScript:
+import * as cheerio from 'cheerio';
+
+const $ = cheerio.load('<ul id="fruits">...</ul>');
+
+$.html();
+//=> <html><head></head><body><ul id="fruits">...</ul></body></html>
 ```
 
 ## Working on the stock GET route
@@ -315,7 +320,7 @@ app.get('/api/stock', async (req, res) => {
 Now use cheerio, first create a `cheerio` instance:
 
 ```js
-const cheerio = require('cheerio');
+import * as cheerio from 'cheerio';
 ```
 
 Then within the `try..` use `cheerio.load()` with `res` as the argument.
@@ -332,6 +337,7 @@ Also send the status 200 on success and 500 on error.
     const stockDataUrl = baseURL(stock);
     const res = await fetch(stockDataUrl);
     const $ = cheerio.load(res);
+    console.log($.html);
     res.sendStatus(200);
 
   } catch(err){
@@ -340,6 +346,17 @@ Also send the status 200 on success and 500 on error.
     res.sendStatus(500);
 
   }
+```
+
+Also print out the `html` code:
+```js
+console.log($.html());
+```
+
+Get the `data` from the response, in `text` form:
+
+```js
+    const data = await stockRes.text();
 ```
 
 # Emulate HTTP Network Requests with **REST Client**
@@ -355,3 +372,6 @@ At the project directory, create `test.rest` file.
 GET http://localhost:5454/api/stock?stock=ATVI
 ```
 
+Now we can go to VSCode, open `test.rest` file, and right above the `GET` line we can see a `Send Request` we can click on. The server must be running with `npm run dev`.
+
+Now when we send that request we can see another window open in VSCode with REST Client.
