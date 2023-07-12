@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import cheerio from 'cheerio';
+const cheerio = require('cheerio');
 
 const app = express();
 const port = 5454;
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/api/stock', (req, res) => {
+app.get('/api/stock', async (req, res) => {
   const { stock } = req.query;
 
   if(!stock){
@@ -30,11 +30,13 @@ app.get('/api/stock', (req, res) => {
   try {
     const stockDataUrl = baseURL(stock);
     const res = await fetch(stockDataUrl);
-    const $ = cheerio.load(stock);
+    const $ = cheerio.load(res);
+    res.sendStatus(200);
   } catch(err){
-    console.log(err);
+    console.log('Error Occurred', err);
+    res.sendStatus(500);
   }
-  
+
 })
 
 app.post('/test', (req, res) => {
