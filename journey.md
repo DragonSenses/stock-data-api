@@ -277,5 +277,30 @@ npm i cheerio
 
 We need to be able to retrieve information. Going to use [Yahoo Finance](https://finance.yahoo.com), while checking stock history with a link like this: `https://finance.yahoo.com/quote/ATVI/history?p=ATVI`.
 
+So we create a `baseUrl` with string parameter `stock` passed into a template string.
 
+```js
+// VARIABLES
+const baseURL = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`;
+```
 
+Then in the route we want to be able to get that URL saved as `stockDataUrl` then fetch it.
+
+```js
+app.get('/api/stock', (req, res) => {
+  const { stock } = req.query;
+
+  if(!stock){
+    return res.sendStatus(403);
+  }
+  
+  try {
+    const stockDataUrl = baseURL(stock);
+    const res = await fetch(stockDataUrl);
+
+  } catch(err){
+    console.log(err);
+  }
+  
+})
+```
