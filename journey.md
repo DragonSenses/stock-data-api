@@ -342,3 +342,16 @@ Also send the status 200 on success and 500 on error.
   }
 ```
 
+# Emulate HTTP Network Requests with **REST Client**
+
+In Visual Studio Code, get the [REST Client for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
+
+We can now emulate HTTP Network requests with a `rest` file, and run network requests straight from VSCode.
+
+At the project directory, create `test.rest` file.
+
+```sh
+###
+GET http://localhost:5454/api/stock?stock=ATVI
+```
+
