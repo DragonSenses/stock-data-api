@@ -273,6 +273,13 @@ To extract and retrieve stock information we need cheerio.
 npm i cheerio
 ```
 
+To use:
+
+```js
+const cheerio = require('cheerio');
+const $ = cheerio.load('<h2 class="title">Hello world</h2>');
+```
+
 ## Working on the stock GET route
 
 We need to be able to retrieve information. Going to use [Yahoo Finance](https://finance.yahoo.com), while checking stock history with a link like this: `https://finance.yahoo.com/quote/ATVI/history?p=ATVI`.
@@ -287,7 +294,7 @@ const baseURL = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=$
 Then in the route we want to be able to get that URL saved as `stockDataUrl` then fetch it.
 
 ```js
-app.get('/api/stock', (req, res) => {
+app.get('/api/stock', async (req, res) => {
   const { stock } = req.query;
 
   if(!stock){
@@ -304,3 +311,34 @@ app.get('/api/stock', (req, res) => {
   
 })
 ```
+
+Now use cheerio, first create a `cheerio` instance:
+
+```js
+const cheerio = require('cheerio');
+```
+
+Then within the `try..` use `cheerio.load()` with `res` as the argument.
+
+```js
+const $ = cheerio.load(res);
+```
+
+Also send the status 200 on success and 500 on error.
+
+```js
+  try {
+    
+    const stockDataUrl = baseURL(stock);
+    const res = await fetch(stockDataUrl);
+    const $ = cheerio.load(res);
+    res.sendStatus(200);
+
+  } catch(err){
+
+    console.log('Error Occurred', err);
+    res.sendStatus(500);
+
+  }
+```
+
