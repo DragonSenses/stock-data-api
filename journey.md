@@ -375,3 +375,20 @@ GET http://localhost:5454/api/stock?stock=ATVI
 Now we can go to VSCode, open `test.rest` file, and right above the `GET` line we can see a `Send Request` we can click on. The server must be running with `npm run dev`.
 
 Now when we send that request we can see another window open in VSCode with REST Client.
+
+---
+
+## Inspect HTML elements we wish to select
+
+Go to the web page, and find the HTML element we wish to gather the data from.
+
+We can see through Chrome Dev Tools and inspect element that it is a `<td>` element, to get the one with the **Adj Close** category it is the 6th `td` element within the `tr`.
+
+Let's access this data:
+
+```js
+const prices = $('td:nth-child(6)');
+console.log('prices: ' + prices);
+```
+
+We access all the HTML data through `$`, then pass in a selector. This time the `nth-child(6)`.
