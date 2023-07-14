@@ -46,10 +46,11 @@ app.get('/api/stock', async (req, res) => {
     console.log('response: ' + stockRes);
 
     const data = await stockRes.text();
+    // console.log('data: ' + data);
 
     const $ = cheerio.load(data);
-    console.log('cheerio load: ' + $);
-    console.log($.html());
+    // console.log('cheerio load: ' + $);
+    // console.log($.html());
 
     res.sendStatus(200);
   } catch(err){
