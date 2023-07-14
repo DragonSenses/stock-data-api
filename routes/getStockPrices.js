@@ -1,6 +1,9 @@
-import fetchPrice from './utils/fetchPrice.js';
+import fetchPrice from '../utils/fetchPrice.js';
 
-async function getStockPrices(req, res) {
+// VARIABLES
+const baseURL = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`;
+
+export default async function getStockPrices(req, res) {
   const { stock } = req.query;
   console.log('Stock Ticker: ' + stock);
 
@@ -29,14 +32,9 @@ async function getStockPrices(req, res) {
     const data = await stockRes.text();
     // console.log('data: ' + data);
 
-    // const $ = cheerio.load(data);
-    // // console.log('cheerio load: ' + $);
-    // // console.log($.html());
-    // const prices = $('td:nth-child(6)')
-    //   .get()
-    //   .map(val => $(val).text());
     const prices = fetchPrice(data);
     console.log('prices: ' + prices);
+
     res.status(200).send({ prices });
   } catch (err) {
     console.log('Error Occurred', err);
@@ -44,5 +42,3 @@ async function getStockPrices(req, res) {
   }
 
 }
-
-export default { getStockPrices }
