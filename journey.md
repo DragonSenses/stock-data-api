@@ -564,3 +564,53 @@ async function getStockPrices() {
 
 export default { getStockPrices }
 ```
+
+### Issue: Error: Route.get() requires a callback function but got a [object Object]
+
+There is an issue on the export imports and `getStockPrices` is not recognized so we need to change a few things.
+
+In `/routes`, rename `index.js` to `getStockPrices.js`. Then change to `export default async function getStockPrices()`
+
+```js
+import fetchPrice from '../utils/fetchPrice.js';
+
+// VARIABLES
+const baseURL = (stock) => `https://finance.yahoo.com/quote/${stock}/history?p=${stock}`;
+
+export default async function getStockPrices(req, res) {
+  const { stock } = req.query;
+  console.log('Stock Ticker: ' + stock);
+
+  if (!stock) {
+    return res.sendStatus(403);
+  }
+
+  try {
+    const stockDataUrl = baseURL(stock);
+
+    const stockRes = await fetch(stockDataUrl);
+
+    const data = await stockRes.text();
+
+    const prices = fetchPrice(data);
+
+    res.status(200).send({ prices });
+  } catch (err) {
+    console.log('Error Occurred', err);
+    res.sendStatus(500);
+  }
+
+}
+```
+
+Then in `server.js`, import the function properly and use it:
+
+```js
+import getStockPrices from './routes/getStockPrices.js';
+
+// ...
+
+app.get('/api/stock', getStockPrices);
+```
+
+Now testing in `test.rest` shows that it still works ok.
