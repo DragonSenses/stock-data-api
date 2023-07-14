@@ -468,3 +468,32 @@ export default function fetchPrice(html) {
   return prices;
 }
 ```
+
+#### Error [ERR_MODULE_NOT_FOUND] issue
+
+Now import the `utils` function `fetchPrice` in `server.js`. 
+
+Since we are using ES6 Modules, make sure to add `.js` at the end of the import. This will solve the [ERR_MODULE_NOT_FOUND] issue.
+
+```js
+import fetchPrice from './utils/fetchPrice.js';
+```
+
+Now call invoke the function passing in the html `data`.
+
+```js
+  try {
+    const stockDataUrl = baseURL(stock);
+
+    const stockRes = await fetch(stockDataUrl);
+
+    const data = await stockRes.text();
+
+    const prices = fetchPrice(data);
+
+    res.status(200).send({ prices });
+  } catch(err){
+    console.log('Error Occurred', err);
+    res.sendStatus(500);
+  }
+```
