@@ -392,3 +392,27 @@ console.log('prices: ' + prices);
 ```
 
 We access all the HTML data through `$`, then pass in a selector. This time the `nth-child(6)`.
+
+Also send the status along with the `prices` object passed as an object.
+
+```js
+res.status(200).send({ prices });
+```
+
+#### Issue: Converting circular structure to JSON
+
+`prices` is an element so we need to convert it by using `get()`.
+
+```js
+const prices = $('td:nth-child(6)').get();
+```
+
+Next issue we come across is that now it comes in as an array, so we need to `map()` out every element.
+
+The mapping function should be the `val` value converted by to a cheerio element `$(val)`, then call `.text()` to get the text from it.
+
+```js
+const prices = $('td:nth-child(6)')
+  .get()
+  .map(val => $(val).text());
+```
