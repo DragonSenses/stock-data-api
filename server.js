@@ -51,8 +51,12 @@ app.get('/api/stock', async (req, res) => {
     const $ = cheerio.load(data);
     // console.log('cheerio load: ' + $);
     // console.log($.html());
+    const prices = $('td:nth-child(6)')
+      .get()
+      .map(val => $(val).text());
 
-    res.sendStatus(200);
+    console.log('prices: ' + prices);
+    res.status(200).send({ prices });
   } catch(err){
     console.log('Error Occurred', err);
     res.sendStatus(500);
