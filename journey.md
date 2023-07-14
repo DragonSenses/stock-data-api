@@ -416,3 +416,28 @@ const prices = $('td:nth-child(6)')
   .get()
   .map(val => $(val).text());
 ```
+
+# Scrape the stock prices and send back the response
+
+Now in `test.rest` send the request one more time.
+
+We can see the `Response` to the right where `REST Client` can be seen. We got a object containing an array of `prices` with 100 values (showing the price for the last 100 days).
+
+```js
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 812
+ETag: W/"32c-jcDaktJHu8CViNha1b900KA7ZMw"
+Date: Fri, 14 Jul 2023 00:21:19 GMT
+Connection: close
+
+{
+  "prices": [
+    "89.54",
+    "90.00",
+    // ...
+    ]
+}
+```
