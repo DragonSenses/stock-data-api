@@ -645,7 +645,7 @@ app.get('/', getHome)
 And in `/routes/getHome.js`,
 
 ```js
-async function getHome(req, res) {
+export default async function getHome(req, res) {
   res.status(200).send({ message: 'Thanks for trying our API' })
 }
 ```
