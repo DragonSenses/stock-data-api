@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-const cheerio = require('cheerio');
+import * as cheerio from 'cheerio';
 
 const app = express();
 const port = 5454;
@@ -27,16 +27,29 @@ app.get('/api/stock', async (req, res) => {
     return res.sendStatus(403);
   }
 
+  /* 
+    fetch(stockDataUrl)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const $ = cheerio.load(data);
+        console.log($.html());
+      })
+      .catch(err => console.log(err))
+  */
   
   try {
     const stockDataUrl = baseURL(stock);
     console.log('stockDataUrl: ' + stockDataUrl);
 
-    const res = await fetch(stockDataUrl);
-    console.log('response: ' + res);
+    const stockRes = await fetch(stockDataUrl);
+    console.log('response: ' + stockRes);
 
-    const $ = cheerio.load(res);
+    const data = await stockRes.text();
+
+    const $ = cheerio.load(data);
     console.log('cheerio load: ' + $);
+    console.log($.html());
 
     res.sendStatus(200);
   } catch(err){
