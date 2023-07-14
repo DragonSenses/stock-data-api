@@ -614,3 +614,38 @@ app.get('/api/stock', getStockPrices);
 ```
 
 Now testing in `test.rest` shows that it still works ok.
+
+## **Improve Code Navigation** through well-named and structured folders/files
+
+Two kinds of modules:
+
+1. Modules that contain a library, pack of functions
+2. Modules that declare a single entity
+
+Second approach is preferred so that every thing resides in its own module. The only downside is that it requires a lot of files as everthing wants its own module, but that's not a problem at all. In fact, code navigation becomes easier if files are well-named and structured into folders.
+
+Modules provide a special `export default` ("the default export") syntax to make the "one thing per module" approach look better & cleaner.
+
+- For every callback function route in `server.js` going to make them their own module. e.g.,
+
+```js
+app.get('/', (req, res) => {
+  res.status(200).send({ message: 'Thanks for trying our API' });
+})
+```
+
+Will become 
+
+```js
+import getHome from './routes/getHome.js';
+
+app.get('/', getHome)
+```
+
+And in `/routes/getHome.js`,
+
+```js
+async function getHome(req, res) {
+  res.status(200).send({ message: 'Thanks for trying our API' })
+}
+```
