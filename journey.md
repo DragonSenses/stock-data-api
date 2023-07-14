@@ -442,7 +442,13 @@ Connection: close
 }
 ```
 
-# Refactor code
+# Refactoring
+
+Refactoring is the process of restructuring existing computer code — changing the factoring — without changing its external behavior. 
+
+It is intended to improve the design, structure, and/or implementation of the software (its non-functional attributes), while preserving its functionality.
+
+## Refactor `fetchPrice` logic
 
 Create a `utils` folder with `index.js` file within.
 
@@ -496,4 +502,65 @@ Now call invoke the function passing in the html `data`.
     console.log('Error Occurred', err);
     res.sendStatus(500);
   }
+```
+
+## Refactor `fetchStockPrices` logic
+
+The entire callback function of:
+
+```js
+app.get('/api/stock', async (req, res) => {
+  const { stock } = req.query;
+  console.log('Stock Ticker: ' + stock );
+
+  if(!stock){
+    return res.sendStatus(403);
+  }
+  
+  try {
+    const stockDataUrl = baseURL(stock);
+
+    const stockRes = await fetch(stockDataUrl);
+
+    const data = await stockRes.text();
+
+    const prices = fetchPrice(data);
+
+    res.status(200).send({ prices });
+  } catch(err){
+    console.log('Error Occurred', err);
+    res.sendStatus(500);
+  }
+
+})
+```
+
+Can be refactored to improve readability. We can move all the logic into a separate file in a folder we create called `/routes`.
+
+So now the route in `server.js` can be simplified to:
+
+```js
+app.get('/api/stock', getStockPrices);
+```
+
+In `routes`, we create the file called `index.js` with a `async` function called `getStockPrices`:
+
+Let's export it right away. In CommonJS, we export functions like so:
+
+```js
+async function getStockPrices() {
+  // ...
+}
+
+module.exports = { getStockPrices }
+```
+
+But we can convert it to **ES module**:
+
+```js
+async function getStockPrices() {
+  // ...
+}
+
+export default { getStockPrices }
 ```
