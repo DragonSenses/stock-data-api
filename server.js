@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import getStockPrices from './routes/getStockPrices.js';
 import getHome from './routes/getHome.js';
+import testPost from './routes/testPost.js';
 
 const app = express();
 const port = 5454;
@@ -15,16 +16,11 @@ app.use(cors());
 // app.use(require('cors')());
 
 // ROUTES
-app.get('/', getHome)
+app.get('/', getHome);
 
 app.get('/api/stock', getStockPrices);
 
-app.post('/test', (req, res) => {
-  const body = req.body;
-  const { message } = body;
-  console.log('Message:' + message );
-  res.sendStatus(200);
-})
+app.post('/test', testPost);
 
 app.listen(port, () => {
   console.log(`Server has started on port: ${port}`);

@@ -626,6 +626,10 @@ Second approach is preferred so that every thing resides in its own module. The 
 
 Modules provide a special `export default` ("the default export") syntax to make the "one thing per module" approach look better & cleaner.
 
+### Refactor Express route callback functions (a.k.a. handler functions)
+
+See [Express Routing](https://expressjs.com/en/guide/routing.html).
+
 - For every callback function route in `server.js` going to make them their own module. e.g.,
 
 ```js
@@ -648,4 +652,37 @@ And in `/routes/getHome.js`,
 export default async function getHome(req, res) {
   res.status(200).send({ message: 'Thanks for trying our API' })
 }
+```
+
+Likewise, create `testPost.js` in `/routes`
+
+```js
+export default async function testPost(req, res) {
+  const body = req.body;
+  const { message } = body;
+  console.log('Message:' + message );
+  res.sendStatus(200);
+}
+```
+
+Import it in `server.js`
+```js
+import testPost from './routes/testPost.js';
+```
+
+Then replace callback function with the `testPost`:
+
+```js
+app.post('/test', (req, res) => {
+  const body = req.body;
+  const { message } = body;
+  console.log('Message:' + message );
+  res.sendStatus(200);
+})
+```
+
+To
+
+```js
+app.post('/test', testPost);
 ```
