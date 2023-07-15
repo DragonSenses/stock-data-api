@@ -4,6 +4,9 @@
   "description": "A Stock data API built with Node.js and Express.js",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node" : ">18"
+  },
   "scripts": {
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
