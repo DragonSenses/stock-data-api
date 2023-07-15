@@ -746,3 +746,85 @@ Server has started on port: 5454
 The banana parameter is: bananaData
 ```
 
+# Middleware
+
+[TheOdinProject on Middleware](https://www.theodinproject.com/lessons/nodejs-express-101#middleware).
+
+**A *middleware* is just a plain JavaScript function that Express will call for you between the time it receives a network request and the time it fires off a response (i.e. it's a function that sits in the middle).**
+
+You will eventually be using several of these functions that will run in a specific sequence for every request.
+
+## Examples
+
+- For example, you might have a logger (that prints details of the request to the console)
+- An authenticator (that checks to see if the user is logged in, or otherwise has permission to access whatever they're requesting) 
+- and a static-file server (if the user is requesting a static file then it will send it to them). 
+
+All of these functions will be called in the order you specify every time there's a request on the way to your `app.get("/")` function.
+
+### A Middleware function
+
+Middleware functions are just plain JavaScript functions with a specific function signature (that is, it takes a specific set of arguments in a specific order).
+
+```js
+function(req, res, next) {
+  // do stuff!
+}
+```
+
+The three middleware function arguments are: `req`, `res`, and `next`. Technically, these are just variables, so you could call them anything, but convention (and the express documentation) almost always give them these names.
+
+### Creating the Middleware for API
+
+Create a folder called `middleware`, then inside create `middlewareInterceptor.js`
+
+```js
+export default function middlewareInterceptor(req, res, next) {
+  console.log('I AM THE MIDDLE MAN');
+  const { password } = req.query;
+
+  if(!password) { 
+    // Forbid access if no password is present
+    return res.sendStatus(403);
+  }
+
+  // Pass control to the next middleware function or next defined function
+  next();
+}
+```
+
+This middleware will intercept routes. 
+
+Useful for:
+- rate limit the API
+- personal API key for users
+
+We can now protect certain routes by passing in middleware interceptor in between path and actual function.
+
+Code will be intercepted by the middleware, which so far will just check for an existing password. Let's also add a valid password to check for:
+
+```js
+export default function middlewareInterceptor(req, res, next) {
+  console.log('I AM THE MIDDLE MAN');
+  const { password } = req.query;
+
+  if(!password) { 
+    // Forbid access if no password is present
+    return res.sendStatus(403);
+  }
+
+  // Check for password
+  switch(password){
+    case 1234 :
+      console.log("Welcome");
+      res.sendStatus(200);
+      break;
+
+    default:
+      return res.sendStatus(403);
+  }
+
+  // Pass control to the next middleware function or next defined function
+  next();
+}
+```
