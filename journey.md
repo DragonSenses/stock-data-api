@@ -691,7 +691,7 @@ app.post('/api/test', testPost);
 
 In `test.rest`, add the POST request
 
-```js
+```sh
 ###
 GET http://localhost:5454/api/stock?stock=ATVI
 
@@ -731,3 +731,18 @@ export default function getParamsTest(req, res){
   res.sendStatus(200);
 }
 ```
+
+Now create the request on `test.rest` and pass in a value named `bananaData` as a parameter:
+
+```sh
+###
+GET http://localhost:5454/api/testParams/bananaData
+```
+
+After sending the request, we can see `bananaParameter` adopted the `bananaData` name.
+
+```sh
+Server has started on port: 5454
+The banana parameter is: bananaData
+```
+

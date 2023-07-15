@@ -8,3 +8,6 @@ Content-Type: application/json
 {
   "message": "hello"
 }
+
+###
+GET http://localhost:5454/api/testParams/bananaData
