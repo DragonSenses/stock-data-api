@@ -696,7 +696,7 @@ In `test.rest`, add the POST request
 GET http://localhost:5454/api/stock?stock=ATVI
 
 ###
-POST http:localhost:5454/api/test
+POST http://localhost:5454/api/test
 Content-Type: application/json
 
 {
