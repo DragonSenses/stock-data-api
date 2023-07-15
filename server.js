@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import getStockPrices from './routes/getStockPrices.js';
+import getParamsTest from './routes/getParamsTest.js';
 import getHome from './routes/getHome.js';
 import testPost from './routes/testPost.js';
 
@@ -19,6 +20,8 @@ app.use(cors());
 app.get('/', getHome);
 
 app.get('/api/stock', getStockPrices);
+
+app.get('/api/testParams/:bananaParameter', getParamsTest);
 
 app.post('/api/test', testPost);
 

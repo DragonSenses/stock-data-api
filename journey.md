@@ -704,3 +704,30 @@ Content-Type: application/json
 }
 ```
 
+### API parameter to access data
+
+Another way to access data is by having a *parameter*.
+
+Let's make a `GET` route to demonstrate this:
+
+```js
+import getParamsTest from './routes/getParamsTest.js';
+
+app.get('/api/testParams/:bananaParameter', getParamsTest);
+```
+
+The semi-colon `( : )` in API routes are used as separator for parameters in the URL. It is used instead of the question mark `?` which is used in query parameters. 
+
+**The semicolon is used to separate the path from the parameters.**
+
+Now let's create that function route in `/routes` called `getParamsTest.js`
+
+```js
+export default function getParamsTest(req, res){
+  const { bananaParameter } = req.params;
+
+  console.log('The banana parameter is: ' + bananaParameter);
+
+  res.sendStatus(200);
+}
+```
