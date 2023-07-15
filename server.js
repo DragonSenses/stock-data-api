@@ -20,7 +20,7 @@ app.get('/', getHome);
 
 app.get('/api/stock', getStockPrices);
 
-app.post('/test', testPost);
+app.post('/api/test', testPost);
 
 app.listen(port, () => {
   console.log(`Server has started on port: ${port}`);

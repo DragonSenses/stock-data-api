@@ -255,7 +255,7 @@ There is 3 different ways you can retrieve information from an incoming network 
 ## Post route
 
 ```js
-app.post('/test', (req, res) => {
+app.post('/api/test', (req, res) => {
   const body = req.body;
   const { message } = body;
   console.log('Message:' + message );
@@ -673,7 +673,7 @@ import testPost from './routes/testPost.js';
 Then replace callback function with the `testPost`:
 
 ```js
-app.post('/test', (req, res) => {
+app.post('/api/test', (req, res) => {
   const body = req.body;
   const { message } = body;
   console.log('Message:' + message );
@@ -684,5 +684,23 @@ app.post('/test', (req, res) => {
 To
 
 ```js
-app.post('/test', testPost);
+app.post('/api/test', testPost);
 ```
+
+## Testing Routes
+
+In `test.rest`, add the POST request
+
+```js
+###
+GET http://localhost:5454/api/stock?stock=ATVI
+
+###
+POST http:localhost:5454/api/test
+Content-Type: application/json
+
+{
+  "message": "hello"
+}
+```
+
