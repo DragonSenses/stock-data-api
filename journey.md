@@ -1,5 +1,21 @@
 # Documents the Development of this Project
 
+A simple Express API (Application Programming Interface). 
+
+An API is a set of protocols that enable different software components to communicate and transfer data.
+
+A lot of complicated logic is hidden behind an API to make it easier to interface with.
+
+One can fire off a simple network request where we give them a simple method of interacting with our API. This method is the interface, which executes logic in the background hidden from the user. User just gets to experience the output.
+
+#### Metaphor - think of APIs like restaurants
+
+[Postman - What is an API?](https://www.postman.com/what-is-an-api/).
+
+- In this metaphor, the customer is like the user, who tells the waiter what she wants. 
+- The waiter is like an API, receiving the customer's order and translating it into easy-to-follow instructions for the kitchen—sometimes using specific codes or abbreviations that the kitchen staff will recognize. 
+- The kitchen staff is like the API server because it creates the order according to the customer's specifications and gives it to the waiter, who then delivers it to the customer.
+
 # Steps to create the project
 
 #### 0. Create `.gitignore` file to ignore `node_modules`
@@ -799,32 +815,126 @@ Useful for:
 - rate limit the API
 - personal API key for users
 
+### Protecting routes with Middleware
+
 We can now protect certain routes by passing in middleware interceptor in between path and actual function.
 
-Code will be intercepted by the middleware, which so far will just check for an existing password. Let's also add a valid password to check for:
+Let's protect the `GET` route that fetches stock prices, so in `server.js`
+
+This route before its protected by middleware:
+
+```js
+app.get('/api/stock', getStockPrices);
+```
+
+After: route is now protected
+```js
+import middlewareInterceptor from './middleware/middlewareInterceptor.js';
+
+app.get('/api/stock', middlewareInterceptor, getStockPrices);
+```
+
+Code will be intercepted by the middleware, which so far will just check for an existing password. 
+
+Let's modify it to check for a valid password:
 
 ```js
 export default function middlewareInterceptor(req, res, next) {
   console.log('I AM THE MIDDLE MAN');
   const { password } = req.query;
 
-  if(!password) { 
-    // Forbid access if no password is present
+  if(password !== '1234') { 
+    // Forbid access if password is not correct
     return res.sendStatus(403);
-  }
-
-  // Check for password
-  switch(password){
-    case 1234 :
-      console.log("Welcome");
-      res.sendStatus(200);
-      break;
-
-    default:
-      return res.sendStatus(403);
   }
 
   // Pass control to the next middleware function or next defined function
   next();
 }
 ```
+
+Now first let's send the request in `test.rest` without the password:
+
+```sh
+###
+GET http://localhost:5454/api/stock?stock=ATVI
+```
+
+We get a `Response` from the Rest client:
+
+```sh
+HTTP/1.1 403 Forbidden
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: text/plain; charset=utf-8
+Content-Length: 9
+ETag: W/"9-PatfYBLj4Um1qTm5zrukoLhNyPU"
+Date: Sat, 15 Jul 2023 19:26:36 GMT
+Connection: close
+
+Forbidden
+```
+
+Now send the request WITH the password:
+
+```sh
+###
+GET http://localhost:5454/api/stock?stock=ATVI&password=1234
+```
+
+The `Response`:
+
+```sh
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 812
+ETag: W/"32c-xpjt/F2AvVns6qfyqluGuT7l6TQ"
+Date: Sat, 15 Jul 2023 19:32:17 GMT
+Connection: close
+
+{
+  "prices": [
+    "90.07",
+    // ...
+  ]
+}
+```
+
+## Use Middleware for all routes
+
+To authenticate every route rather than just one `GET` route, we can add:
+
+```js
+app.use(middlewareInterceptor);
+```
+
+Now every route is forbidden `403` unless we pass in the proper password.
+
+# Push to Production
+
+We can add a [Web Service on Render](https://render.com/docs/web-services). Link it up to the repo and deploy the service.
+
+## If you get the `ERROR ReferenceError: fetch is not defined`
+
+The fix is to specify the `node` version within `package.json` file.
+
+Just add `"engines"` like so:
+
+```json
+{
+  "name": "stock-data-api",
+  "version": "1.0.0",
+  "description": "A Stock data API built with Node.js and Express.js",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node" : ">18"
+  },
+  
+```
+
+Re-deploy on render and service can go live now.
+
+Test the Request again through the live API.
