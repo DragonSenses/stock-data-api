@@ -1,9 +1,9 @@
 # stock-data-api
- A Stock data API built with Node.js and Express.js
+ A simple stock data API built with Node.js and Express.js
 
 # Description
 
-A stock data API built with Node.js and Express.js
+A simple project to explore APIs, Express, API endpoints, middleware, and so on.
 
 # Technologies:
 Node.js, Express.js, JavaScript, Cheerio
@@ -12,6 +12,8 @@ Node.js, Express.js, JavaScript, Cheerio
 
 - Create an Express Server to create an API
 - Create Routes for others to interact & retrieve stock information
+- Create middleware interceptor to authenticate routes
+- Emulate HTTP network requests through REST client
 - Use Cheerio to web scrape stock data
 
 # Instructions to run locally
