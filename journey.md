@@ -1017,3 +1017,19 @@ npm install package-name@"<3.0.0"
 
 Would install the latest right before 3.0.0 (e.g. 2.11.1)
 
+## Dependency log
+
+(May 21, 2024)
+```sh
+npm outdated
+
+Package  Current  Wanted  Latest  Location              Depended by
+express   4.18.2  4.19.2  4.19.2  node_modules/express  stock-data-api
+nodemon    3.0.1   3.1.0   3.1.0  node_modules/nodemon  stock-data-api
+```
+
+chore: Update dependencies to latest versions
+
+```sh
+npm update --save
+```
